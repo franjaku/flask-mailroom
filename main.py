@@ -1,5 +1,4 @@
 import os
-import base64
 
 from flask import Flask, render_template, request, redirect, url_for, session
 from peewee import DoesNotExist
