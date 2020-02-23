@@ -23,7 +23,7 @@ def all():
 def create_donation():
     if request.method == 'POST':
         Donation.create(value=request.form['donation'], donor=request.form['name'])
-        redirect(url_for('home'))
+        return redirect(url_for('home'))
     else:
         return render_template('create.jinja2')
 
