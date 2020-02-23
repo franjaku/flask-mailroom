@@ -19,11 +19,11 @@ def all():
     return render_template('donations.jinja2', donations=donations)
 
 
-@app.route('/create', methods=['GET','POST'])
+@app.route('/create', methods=['GET', 'POST'])
 def create_donation():
     if request.method == 'POST':
         Donation.create(value=request.form['donation'], donor=request.form['name'])
-        redirect(url_for('donations'))
+        redirect(url_for('home'))
     else:
         return render_template('create.jinja2')
 
