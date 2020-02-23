@@ -7,7 +7,7 @@ from model import Donation, Donor
 app = Flask(__name__)
 
 
-@app.route('/')
+@app.route('/', methods=['GET'])
 def home():
     return redirect(url_for('all'))
 
