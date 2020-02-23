@@ -2,8 +2,8 @@ import os
 import base64
 
 from flask import Flask, render_template, request, redirect, url_for, session
-
-from model import Donation 
+from peewee import DoesNotExist
+from model import Donation, Donor
 
 app = Flask(__name__)
 
@@ -13,7 +13,7 @@ def home():
     return redirect(url_for('all'))
 
 
-@app.route('/donations/')
+@app.route('/donations/', methods=['GET'])
 def all():
     donations = Donation.select()
     return render_template('donations.jinja2', donations=donations)
@@ -22,8 +22,12 @@ def all():
 @app.route('/create', methods=['GET', 'POST'])
 def create_donation():
     if request.method == 'POST':
-        Donation.create(value=request.form['donation'], donor=request.form['name'])
-        return redirect(url_for('home'))
+        try:
+            donor = Donor.get(name=request.form['name'])
+            Donation.create(value=request.form['donation'], donor=donor)
+            return redirect(url_for('home'))
+        except DoesNotExist:
+            return render_template('create.jinja2', error='User does not exist')
     else:
         return render_template('create.jinja2')
 
